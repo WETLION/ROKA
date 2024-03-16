@@ -1,33 +1,55 @@
 #include <algorithm>
 #include <iostream>
-#include <queue>
-#include <string>
 #include <vector>
 
 using namespace std;
 
 typedef struct {
-  int sum, point;
+  int weight, cost;
 } node;
 
-struct cmp {
-  bool operator()(node a, node b) { return a.sum > b.sum; }
-};
+bool cmp(node a, node b) {
+  if (a.cost == b.cost)
+    return a.weight > b.weight;
+  return a.cost < b.cost;
+}
 
-int way[20][20], ;
-priority_queue<node, vector<node>, cmp> pq;
+vector<node> v;
+vector<int> bag;
+long long int sum_cost;
 
 int main() {
-  int n;
-  cin >> n;
+  int n, k;
+  cin >> n >> k;
   for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      cin >> way[i][j];
-    }
+    int weight, cost;
+    cin >> weight >> cost;
+    v.push_back({weight, cost});
   }
-  for (int i = 0; i < n; i++) {
-    pq.push({0, i});
+  for (int i = 0; i < k; i++) {
+    int weight;
+    cin >> weight;
+    bag.push_back(weight);
   }
+  sort(v.begin(), v.end(), cmp);
+  sort(bag.begin(), bag.end());
+  // for(int i=0; i<n; i++) {
+  //   cout << v[i].weight << " " << v[i].cost << endl;
+  // }
+  // cout << endl;
+  // for(int i=0; i<k; i++) {
+  //   cout << bag[i] << " ";
+  // }
+  // cout << endl;
+  while (!bag.empty() && !v.empty()) {
+    node now = v.back();
+    v.pop_back();
+    if (now.weight > bag.back())
+      continue;
+    int lower = lower_bound(bag.begin(), bag.end(), now.weight) - bag.begin();
+    cout << "##" << now.weight << " " << bag[lower] << " " << lower << endl;
+  }
+  cout << sum_cost;
 
   return 0;
 }
