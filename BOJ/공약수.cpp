@@ -22,7 +22,7 @@ int main() {
   lcm /= gcd;
   sqrt_lcm = (int)sqrt(lcm);
   for(int i = 2; i <= sqrt_lcm; i++) {
-    if(lcm % i == 0 && _gcd(lcm / i, i) == 1){
+    if(lcm % i == 0 && _gcd(lcm / i, i) == 1) { // 서로소 요건 빼먹음
       // if(i + lcm / i < MIN){
       //   MIN = i + lcm / i;
       //   a = i;
