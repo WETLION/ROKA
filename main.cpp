@@ -1,55 +1,20 @@
-#include <algorithm>
 #include <iostream>
-#include <vector>
+#include <algorithm>
+
+// 2212번 센서
 
 using namespace std;
 
-typedef struct {
-  int weight, cost;
-} node;
-
-bool cmp(node a, node b) {
-  if (a.cost == b.cost)
-    return a.weight > b.weight;
-  return a.cost < b.cost;
-}
-
-vector<node> v;
-vector<int> bag;
-long long int sum_cost;
+int n, k, arr[10000], ans, len[10000];
 
 int main() {
-  int n, k;
-  cin >> n >> k;
-  for (int i = 0; i < n; i++) {
-    int weight, cost;
-    cin >> weight >> cost;
-    v.push_back({weight, cost});
-  }
-  for (int i = 0; i < k; i++) {
-    int weight;
-    cin >> weight;
-    bag.push_back(weight);
-  }
-  sort(v.begin(), v.end(), cmp);
-  sort(bag.begin(), bag.end());
-  // for(int i=0; i<n; i++) {
-  //   cout << v[i].weight << " " << v[i].cost << endl;
-  // }
-  // cout << endl;
-  // for(int i=0; i<k; i++) {
-  //   cout << bag[i] << " ";
-  // }
-  // cout << endl;
-  while (!bag.empty() && !v.empty()) {
-    node now = v.back();
-    v.pop_back();
-    if (now.weight > bag.back())
-      continue;
-    int lower = lower_bound(bag.begin(), bag.end(), now.weight) - bag.begin();
-    cout << "##" << now.weight << " " << bag[lower] << " " << lower << endl;
-  }
-  cout << sum_cost;
+    cin >> n >> k;
+    for(int i = 0; i < n; i++) cin >> arr[i];
+    sort(arr, arr + n--);
+    for(int i = 0; i < n; i++) len[i] = arr[i + 1] - arr[i];
+    sort(len, len + n);
+    for(int i = 0; i <= n - k; i++) ans += len[i];
+    cout << ans;
 
-  return 0;
-}
+    return 0;
+} 
